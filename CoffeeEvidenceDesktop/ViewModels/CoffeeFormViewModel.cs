@@ -85,6 +85,7 @@ namespace CoffeeEvidenceDesktop.ViewModels
         [RelayCommand]
         private async void Appearing()
         {
+            await Task.Delay(1000);
             if (!_loginEntered)
             {
                 string login = string.Empty;
