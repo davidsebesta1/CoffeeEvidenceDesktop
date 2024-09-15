@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CoffeeEvidenceDesktop.CoffeeUsagePage"
+             xmlns:vm="clr-namespace:CoffeeEvidenceDesktop.ViewModels"
+             xmlns:model="clr-namespace:CoffeeEvidenceDesktop.Models"
+             x:DataType="vm:CoffeeUsageViewModel"
+             Title="CoffeeUsagePage">
+
+    <Grid RowDefinitions="15,85,*" Margin="15,0,15,15">
+        <VerticalStackLayout Grid.Row="1" HorizontalOptions="Center" Spacing="15" Padding="0">
+            <Label Text="Vyberte Měsíc" HorizontalTextAlignment="Center"/>
+            <Picker WidthRequest="250" ItemsSource="{Binding Months}" SelectedItem="{Binding SelectedMonth}"/>
+        </VerticalStackLayout>
+
+        <Frame Grid.Row="2" BackgroundColor="{StaticResource PanelBackgroundDark}" Margin="0,10,0,0" CornerRadius="15">
+            <Grid RowDefinitions="35,*">
+                <Grid ColumnDefinitions="*,*,*">
+                    <Label Grid.Column="0" Text="Název" HorizontalTextAlignment="Start"/>
+                    <Label Grid.Column="1" Text="Jméno" HorizontalTextAlignment="Start"/>
+                    <Label Grid.Column="2" Text="Počet" HorizontalTextAlignment="Start"/>
+                </Grid>
+
+                <CollectionView Grid.Row="1" ItemsSource="{Binding Usage}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:MonthlyUsage">
+                            <Frame BackgroundColor="{StaticResource PanelBackgroundNormal}" Padding="7">
+                                <Grid ColumnDefinitions="*,*,*">
+                                    <Label Grid.Column="0" Text="{Binding Name}" HorizontalTextAlignment="Start"/>
+                                    <Label Grid.Column="1" Text="{Binding User}" HorizontalTextAlignment="Start"/>
+                                    <Label Grid.Column="2" Text="{Binding Amount}" HorizontalTextAlignment="Start"/>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </Frame>
+    </Grid>
+</ContentPage>

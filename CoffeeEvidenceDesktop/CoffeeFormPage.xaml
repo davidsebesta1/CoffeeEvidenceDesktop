@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CoffeeEvidenceDesktop.CoffeeFormPage"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vm="clr-namespace:CoffeeEvidenceDesktop.ViewModels"
+             xmlns:model="clr-namespace:CoffeeEvidenceDesktop.Models"
+             xmlns:converters="clr-namespace:CoffeeEvidenceDesktop.Converters"
+             x:DataType="vm:CoffeeFormViewModel"
+             Title="CoffeeFormPage">
+
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding GetInputsCommand}" />
+    </ContentPage.Behaviors>
+
+    <ScrollView>
+        <Frame BackgroundColor="{StaticResource PanelBackgroundDark}" Margin="10" CornerRadius="15">
+            <VerticalStackLayout Spacing="15">
+                <Grid ColumnDefinitions="*,250" Padding="15">
+                    <Label HorizontalTextAlignment="Start" VerticalTextAlignment="Center" Text="Jméno:" FontSize="18"/>
+                    <Picker WidthRequest="250" Grid.Column="1" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser, Mode=TwoWay}"/>
+                </Grid>
+
+                <Frame BackgroundColor="{StaticResource PanelBackgroundNormal}" Padding="10">
+                    <CollectionView ItemsSource="{Binding Types}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
+                        </CollectionView.ItemsLayout>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="model:DrinkType">
+                                <Grid ColumnDefinitions="150,*">
+                                    <Label VerticalTextAlignment="Center" Text="{Binding Typ}" FontSize="18"/>
+                                    <HorizontalStackLayout Grid.Column="1" HorizontalOptions="End">
+                                        <Button WidthRequest="75" FontSize="24" Text="+" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CoffeeFormViewModel}}, Path=IncrementCoffeeAmountCommand}" CommandParameter="{Binding .}"/>
+                                        <Button WidthRequest="75" FontSize="24" Margin="15,0,0,0" Text="-" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CoffeeFormViewModel}}, Path=DecrementCoffeeAmountCommand}" CommandParameter="{Binding .}"/>
+                                        <Entry WidthRequest="100" Margin="15,0,0,0" Keyboard="Numeric" HorizontalOptions="FillAndExpand" Text="{Binding Amount, Mode=TwoWay}" TextChanged="Entry_TextChanged"/>
+                                    </HorizontalStackLayout>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Frame>
+                <Button Text="Odeslat" HeightRequest="35" WidthRequest="300" VerticalOptions="End" Command="{Binding SendCommand}"/>
+            </VerticalStackLayout>
+        </Frame>
+    </ScrollView>
+</ContentPage>
