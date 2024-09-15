@@ -23,6 +23,7 @@ namespace CoffeeEvidenceDesktop.ViewModels
 
             _client = client;
             _usage = new ObservableCollection<MonthlyUsage>();
+            SelectedMonth = Months[0];
         }
 
         async partial void OnSelectedMonthChanged(Month value)

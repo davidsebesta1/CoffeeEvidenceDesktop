@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.ObjectModel;
+using System.Text;
 
 namespace CoffeeEvidenceDesktop.ViewModels
 {
@@ -19,6 +20,8 @@ namespace CoffeeEvidenceDesktop.ViewModels
 
         [ObservableProperty]
         private User _selectedUser;
+
+        private bool _loginEntered = false;
 
         public CoffeeFormViewModel(HttpClient httpClient)
         {
@@ -80,8 +83,53 @@ namespace CoffeeEvidenceDesktop.ViewModels
         }
 
         [RelayCommand]
+        private async void Appearing()
+        {
+            if (!_loginEntered)
+            {
+                string login = string.Empty;
+                while (string.IsNullOrEmpty(login))
+                {
+                    login = await Shell.Current.DisplayPromptAsync("Login", "Zadejte username pro login", "Okay", "Cancel");
+                }
+
+                string pswd = string.Empty;
+                if (string.IsNullOrEmpty(pswd))
+                {
+                    pswd = await Shell.Current.DisplayPromptAsync("Login", "Zadejte heslo pro login", "Okay", "Cancel");
+                }
+
+                string encoded = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes($"{login}:{pswd}"));
+                _client.DefaultRequestHeaders.Add("Authorization", "Basic " + encoded);
+
+                try
+                {
+                    string loginAttempt = await _client.GetStringAsync("http://ajax1.lmsoft.cz/procedure.php?cmd=getPeopleList");
+
+                    _loginEntered = true;
+                }
+                catch (Exception ex)
+                {
+                    bool res = await Shell.Current.DisplayAlert("Error", $"Chyba při přihlašování: {ex.Message}", "Ukončit", "Cancel");
+                    if (res)
+                    {
+                        Application.Current.Quit();
+                    }
+                }
+
+            }
+
+            await GetInputs();
+        }
+
+        [RelayCommand]
         private async Task GetInputs()
         {
+            if (Users != null && Users.Any())
+            {
+                return;
+            }
+
             string json = string.Empty;
             try
             {

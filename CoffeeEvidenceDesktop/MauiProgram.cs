@@ -26,8 +26,6 @@ namespace CoffeeEvidenceDesktop
             builder.Services.AddSingleton<CoffeeUsagePage>();
 
             HttpClient client = new HttpClient();
-            string encoded = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1").GetBytes("coffee:kafe"));
-            client.DefaultRequestHeaders.Add("Authorization", "Basic " + encoded);
             builder.Services.AddSingleton(client);
 
             builder.Services.AddSingleton<CoffeeUsageViewModel>();
