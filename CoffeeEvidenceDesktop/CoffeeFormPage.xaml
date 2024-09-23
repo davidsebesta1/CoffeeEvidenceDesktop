@@ -12,34 +12,34 @@
         <toolkit:EventToCommandBehavior EventName="Appearing" Command="{Binding AppearingCommand}" />
     </ContentPage.Behaviors>
 
-        <Frame BackgroundColor="{StaticResource PanelBackgroundDark}" Margin="10" CornerRadius="15">
-            <VerticalStackLayout Spacing="15">
-                <Grid ColumnDefinitions="*,250" Padding="15">
-                    <Label HorizontalTextAlignment="Start" VerticalTextAlignment="Center" Text="Jméno:" FontSize="18"/>
-                    <Picker WidthRequest="250" Grid.Column="1" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser, Mode=TwoWay}"/>
-                </Grid>
+    <Frame BackgroundColor="{StaticResource PanelBackgroundDark}" Margin="10" CornerRadius="15">
+        <VerticalStackLayout Spacing="15">
+            <Grid ColumnDefinitions="*,250" Padding="15">
+                <Label HorizontalTextAlignment="Start" VerticalTextAlignment="Center" Text="Jméno:" FontSize="18"/>
+                <Picker WidthRequest="250" Grid.Column="1" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser, Mode=TwoWay}"/>
+            </Grid>
 
-                <Frame BackgroundColor="{StaticResource PanelBackgroundNormal}" Padding="10">
-                    <CollectionView ItemsSource="{Binding Types}">
-                        <CollectionView.ItemsLayout>
-                            <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
-                        </CollectionView.ItemsLayout>
+            <Frame BackgroundColor="{StaticResource PanelBackgroundNormal}" Padding="10">
+                <CollectionView ItemsSource="{Binding Types}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="5"/>
+                    </CollectionView.ItemsLayout>
 
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="model:DrinkType">
-                                <Grid ColumnDefinitions="150,*">
-                                    <Label VerticalTextAlignment="Center" Text="{Binding Typ}" FontSize="18"/>
-                                    <HorizontalStackLayout Grid.Column="1" HorizontalOptions="End">
-                                        <Button WidthRequest="75" FontSize="24" Text="+" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CoffeeFormViewModel}}, Path=IncrementCoffeeAmountCommand}" CommandParameter="{Binding .}"/>
-                                        <Button WidthRequest="75" FontSize="24" Margin="15,0,0,0" Text="-" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CoffeeFormViewModel}}, Path=DecrementCoffeeAmountCommand}" CommandParameter="{Binding .}"/>
-                                        <Entry WidthRequest="100" Margin="15,0,0,0" Keyboard="Numeric" HorizontalOptions="FillAndExpand" Text="{Binding Amount, Mode=TwoWay}" TextChanged="Entry_TextChanged"/>
-                                    </HorizontalStackLayout>
-                                </Grid>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </Frame>
-                <Button Text="Odeslat" HeightRequest="35" WidthRequest="300" VerticalOptions="End" Command="{Binding SendCommand}"/>
-            </VerticalStackLayout>
-        </Frame>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:DrinkType">
+                            <Grid ColumnDefinitions="150,*">
+                                <Label VerticalTextAlignment="Center" Text="{Binding Typ}" FontSize="18"/>
+                                <HorizontalStackLayout Grid.Column="1" HorizontalOptions="End">
+                                    <Entry WidthRequest="100" Margin="15,0,0,0" Keyboard="Numeric" HorizontalOptions="FillAndExpand" Text="{Binding Amount, Mode=TwoWay}" TextChanged="Entry_TextChanged"/>
+                                    <Button WidthRequest="75" FontSize="24"  Margin="15,0,0,0" Text="+" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CoffeeFormViewModel}}, Path=IncrementCoffeeAmountCommand}" CommandParameter="{Binding .}"/>
+                                    <Button WidthRequest="75" FontSize="24" Margin="15,0,0,0" Text="-" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CoffeeFormViewModel}}, Path=DecrementCoffeeAmountCommand}" CommandParameter="{Binding .}"/>
+                                </HorizontalStackLayout>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Frame>
+            <Button Text="Odeslat" HeightRequest="35" WidthRequest="300" VerticalOptions="End" Command="{Binding SendCommand}"/>
+        </VerticalStackLayout>
+    </Frame>
 </ContentPage>
